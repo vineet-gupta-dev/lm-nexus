@@ -8,7 +8,7 @@ interface DrillDownPanelProps {
   subtitle?: string;
   onClose: () => void;
   children: React.ReactNode;
-  width?: 'md' | 'lg' | 'xl' | 'full';
+  width?: 'md' | 'lg' | 'xl' | 'full' | 'split';
 }
 
 export function DrillDownPanel({ open, title, subtitle, onClose, children, width = 'lg' }: DrillDownPanelProps) {
@@ -35,6 +35,7 @@ export function DrillDownPanel({ open, title, subtitle, onClose, children, width
         className={cn(
           'fixed inset-y-0 right-0 z-50 flex flex-col bg-slate-900 border-l border-slate-700/60 shadow-2xl transition-transform duration-300',
           width === 'full' && 'w-full',
+          width === 'split' && 'w-full md:w-[70vw] md:min-w-[860px] md:max-w-none',
           width === 'md' && 'w-full max-w-xl',
           width === 'lg' && 'w-full max-w-2xl',
           width === 'xl' && 'w-full max-w-4xl',
