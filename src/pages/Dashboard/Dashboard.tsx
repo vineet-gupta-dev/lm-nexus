@@ -441,6 +441,21 @@ export function Dashboard() {
                 <Area type="monotone" dataKey="limited" name="Limited" stroke="#06b6d4" fill="url(#gLim)" strokeWidth={2} />
               </AreaChart>
             </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              <span className="text-[11px] text-slate-500 mr-1">Quick drill:</span>
+              {usageTrend.map((point) => (
+                <button
+                  key={point.month}
+                  onClick={() => {
+                    setDrill(null);
+                    setContextDrill({ type: 'trend', point });
+                  }}
+                  className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white"
+                >
+                  {point.month}
+                </button>
+              ))}
+            </div>
           </Card>
 
           {/* Alerts */}
@@ -449,6 +464,7 @@ export function Dashboard() {
               <CardTitle>Active Alerts</CardTitle>
               <span className="text-xs text-red-400 font-medium">{complianceAlerts.filter(a => a.severity === 'critical' || a.severity === 'high').length} critical</span>
             </CardHeader>
+            <p className="text-[11px] text-slate-500 mb-2">Click any alert card to open full drill-down details.</p>
             <div className="space-y-2">
               {complianceAlerts.slice(0, 5).map((alert) => (
                 <button
