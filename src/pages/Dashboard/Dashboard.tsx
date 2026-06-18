@@ -58,6 +58,7 @@ const PANEL_CONFIG: Record<
 };
 
 const heatTabs = ['Consumption Heat Map', 'Cost Allocation', 'Savings Opportunities'];
+const EMPTY_HEAT_CELL = { x: 'N/A', y: 'N/A', value: 0, label: '0' };
 
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState(0);
@@ -93,6 +94,53 @@ export function Dashboard() {
     if (idx <= 0) return null;
     return usageTrend[idx][key] - usageTrend[idx - 1][key];
   };
+
+  const openConsumptionContext = () => {
+    const cell = consumptionHeatMap[0] ?? EMPTY_HEAT_CELL;
+    setActiveTab(0);
+    setDrill(null);
+    setContextDrill({ type: 'heat-consumption', cell });
+  };
+
+  const openCostContext = () => {
+    const cell = costHeatMap[0] ?? EMPTY_HEAT_CELL;
+    setActiveTab(1);
+    setDrill(null);
+    setContextDrill({ type: 'heat-cost', cell });
+  };
+
+  const openSavingsContext = () => {
+    const cell = savingsHeatMap[0] ?? EMPTY_HEAT_CELL;
+    setActiveTab(2);
+    setDrill(null);
+    setContextDrill({ type: 'heat-savings', cell });
+  };
+
+  const openTrendContext = () => {
+    const point = usageTrend[usageTrend.length - 1] ?? usageTrend[0];
+    if (!point) return;
+    setDrill(null);
+    setContextDrill({ type: 'trend', point });
+  };
+
+  const openAlertContext = () => {
+    const alert = complianceAlerts[0];
+    if (!alert) return;
+    setDrill(null);
+    setContextDrill({ type: 'alert', alert });
+  };
+
+  const contextLabel = contextDrill
+    ? contextDrill.type === 'heat-consumption'
+      ? `Consumption · ${contextDrill.cell.x} / ${contextDrill.cell.y}`
+      : contextDrill.type === 'heat-cost'
+        ? `Cost · ${contextDrill.cell.y} / ${contextDrill.cell.x}`
+        : contextDrill.type === 'heat-savings'
+          ? `Savings · ${contextDrill.cell.x} / ${contextDrill.cell.y}`
+          : contextDrill.type === 'trend'
+            ? `Trend · ${contextDrill.point.month}`
+            : `Alert · ${contextDrill.alert.title}`
+    : null;
 
   const renderContextDrill = () => {
     if (!contextDrill) return null;
@@ -429,6 +477,24 @@ export function Dashboard() {
       {/* Drill-Down Panel */}
       {activePanelCfg && (
         <DrillDownPanel open={drill !== null || contextDrill !== null} title={activePanelCfg.title} subtitle={activePanelCfg.subtitle} onClose={close} width={activePanelCfg.width}>
+          {contextDrill && (
+            <div className="rounded-lg border border-slate-700/50 bg-slate-800/50 p-3 space-y-2">
+              <div className="flex flex-wrap items-center gap-1 text-[11px]">
+                <button onClick={close} className="text-slate-400 hover:text-slate-200">Dashboard</button>
+                <span className="text-slate-600">/</span>
+                <span className="text-slate-300">Drill-down</span>
+                <span className="text-slate-600">/</span>
+                <span className="text-indigo-300 font-medium">{contextLabel}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                <button onClick={openConsumptionContext} className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white">Consumption</button>
+                <button onClick={openCostContext} className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white">Cost</button>
+                <button onClick={openSavingsContext} className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white">Savings</button>
+                <button onClick={openTrendContext} className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white">Trend</button>
+                <button onClick={openAlertContext} className="px-2 py-1 rounded border border-slate-600 text-xs text-slate-300 hover:border-indigo-500/50 hover:text-white">Alerts</button>
+              </div>
+            </div>
+          )}
           {drill === 'total'      && <TotalLicensesDrillDown />}
           {drill === 'consumed'   && <ConsumedDrillDown />}
           {drill === 'available'  && <AvailableDrillDown />}
