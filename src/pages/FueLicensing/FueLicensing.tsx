@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  ResponsiveContainer, AreaChart, Area, Cell
+  ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 import { Info, TrendingDown, AlertTriangle, CheckCircle2, Zap, ArrowRight } from 'lucide-react';
 import { Topbar } from '../../components/Topbar';

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { users } from '../../data/mockData';
-import { riskColor, statusColor } from '../../lib/utils';
+import { riskColor } from '../../lib/utils';
 
 export function AssignmentCenter() {
   const [query, setQuery] = useState('');

@@ -13,7 +13,7 @@ import {
   complianceAlerts, savingsHeatMap,
 } from '../../data/mockData';
 import { formatCurrency, formatPercent, severityColor, statusColor } from '../../lib/utils';
-import { AlertTriangle, CheckCircle2, Clock, TrendingDown } from 'lucide-react';
+import { AlertTriangle, TrendingDown } from 'lucide-react';
 
 const LICENSE_COLORS: Record<string, string> = {
   Professional: '#6366f1',
@@ -27,18 +27,6 @@ const LICENSE_COLORS: Record<string, string> = {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{children}</p>;
-}
-
-function StatRow({ label, value, sub, color = 'text-slate-200' }: { label: string; value: string | number; sub?: string; color?: string }) {
-  return (
-    <div className="flex items-center justify-between py-2 border-b border-slate-700/40 last:border-0">
-      <span className="text-sm text-slate-400">{label}</span>
-      <div className="text-right">
-        <span className={`text-sm font-semibold tabular-nums ${color}`}>{value}</span>
-        {sub && <p className="text-[10px] text-slate-600 mt-0.5">{sub}</p>}
-      </div>
-    </div>
-  );
 }
 
 // ─── License breakdown data (derived from chargebackData) ────────────────────
@@ -85,7 +73,7 @@ export function TotalLicensesDrillDown() {
                 ))}
               </Pie>
               <Tooltip
-                formatter={(v: number) => [v.toLocaleString(), 'Users']}
+                formatter={(v: any) => [(v ?? 0).toLocaleString(), 'Users']}
                 contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '11px' }}
               />
               <Legend wrapperStyle={{ fontSize: '11px' }} />
@@ -246,7 +234,7 @@ export function ConsumedDrillDown() {
                   <p className="text-[11px] text-slate-500">{u.email}</p>
                 </td>
                 <td className="py-2 pr-3">
-                  <Badge className="text-[10px]" style={{ background: `${LICENSE_COLORS[u.licenseType]}22`, color: LICENSE_COLORS[u.licenseType] ?? '#94a3b8' }}>
+                  <Badge className="text-[10px]" variant="outline">
                     {u.licenseType}
                   </Badge>
                 </td>
@@ -477,7 +465,7 @@ export function SavingsDrillDown() {
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
             <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
             <YAxis tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
-            <Tooltip formatter={(v: number) => [formatCurrency(v), 'Savings']} contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '11px' }} />
+            <Tooltip formatter={(v: any) => [formatCurrency(v ?? 0), 'Savings']} contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '11px' }} />
             <Bar dataKey="value" name="Savings" fill="#22c55e" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>

@@ -96,7 +96,7 @@ export function Contracts() {
                 <XAxis type="number" domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 10 }} tickFormatter={v => `${v}%`} axisLine={false} tickLine={false} />
                 <YAxis type="category" dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} axisLine={false} tickLine={false} width={70} />
                 <Tooltip
-                  formatter={(v: number) => [`${v}%`, 'Utilization']}
+                  formatter={(v: any) => [`${v ?? 0}%`, 'Utilization']}
                   contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '12px' }}
                 />
                 <Bar dataKey="utilization" radius={[0, 4, 4, 0]}>

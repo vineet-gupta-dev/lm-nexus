@@ -30,7 +30,7 @@ export function Chargeback() {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v: number) => [formatCurrency(v), 'Annual Cost']}
+                  formatter={(v: any) => [formatCurrency(v ?? 0), 'Annual Cost']}
                   contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '11px' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px' }} />
@@ -50,7 +50,7 @@ export function Chargeback() {
                 <XAxis dataKey="department" tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <Tooltip
-                  formatter={(v: number) => [formatCurrency(v), 'Annual Cost']}
+                  formatter={(v: any) => [formatCurrency(v ?? 0), 'Annual Cost']}
                   contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px', fontSize: '12px' }}
                 />
                 <Bar dataKey="annualCost" radius={[4, 4, 0, 0]}>

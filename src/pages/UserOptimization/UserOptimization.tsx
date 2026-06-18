@@ -14,13 +14,10 @@ import {
 import { formatCurrency, riskColor } from '../../lib/utils';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, ResponsiveContainer, Cell,
+  Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
-const LICENSE_RANK: Record<string, number> = {
-  ESS: 1, Test: 2, Limited: 3, Core: 4, Professional: 5, Developer: 6,
-};
 const LICENSE_COLOR: Record<string, string> = {
   Developer: '#8b5cf6', Professional: '#6366f1', Core: '#06b6d4',
   Limited: '#f59e0b', ESS: '#64748b', Test: '#334155',
@@ -271,7 +268,7 @@ function DuplicateTab() {
                                 </td>
                                 <td className="py-2 pr-3"><code className="text-amber-400 bg-amber-400/10 px-1 rounded">{acc.userId}</code></td>
                                 <td className="py-2 pr-3">
-                                  <Badge className="text-[10px]" style={{ background: `${LICENSE_COLOR[acc.licenseType]}22`, color: LICENSE_COLOR[acc.licenseType] ?? '#94a3b8' }}>
+                                  <Badge className="text-[10px]" variant="outline">
                                     {acc.licenseType}
                                   </Badge>
                                 </td>
