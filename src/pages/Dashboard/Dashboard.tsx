@@ -45,16 +45,16 @@ type ContextDrill =
 
 const PANEL_CONFIG: Record<
   Exclude<DrillKey, null>,
-  { title: string; subtitle: string; width: 'md' | 'lg' | 'xl' }
+  { title: string; subtitle: string; width: 'md' | 'lg' | 'xl' | 'full' }
 > = {
-  total:      { title: 'Total Licenses — Breakdown', subtitle: 'All license types and department allocation', width: 'xl' },
-  consumed:   { title: 'Consumed Licenses — Detail', subtitle: 'Active assignments, utilisation by department & user', width: 'xl' },
-  available:  { title: 'Available Licenses', subtitle: 'Headroom per contract', width: 'lg' },
-  compliance: { title: 'Compliance Score — Detail', subtitle: 'Category scores and open alerts', width: 'xl' },
-  savings:    { title: 'Potential Savings — Breakdown', subtitle: 'Savings opportunities by category and department', width: 'xl' },
-  expiring:   { title: 'Expiring Contracts', subtitle: 'Contracts requiring renewal action within 90 days', width: 'lg' },
-  highrisk:   { title: 'High-Risk Users', subtitle: 'Inactive and over-licensed user accounts', width: 'lg' },
-  indirect:   { title: 'Indirect Usage Risk', subtitle: '3rd-party integrations with SAP access', width: 'lg' },
+  total:      { title: 'Total Licenses — Breakdown', subtitle: 'All license types and department allocation', width: 'full' },
+  consumed:   { title: 'Consumed Licenses — Detail', subtitle: 'Active assignments, utilisation by department & user', width: 'full' },
+  available:  { title: 'Available Licenses', subtitle: 'Headroom per contract', width: 'full' },
+  compliance: { title: 'Compliance Score — Detail', subtitle: 'Category scores and open alerts', width: 'full' },
+  savings:    { title: 'Potential Savings — Breakdown', subtitle: 'Savings opportunities by category and department', width: 'full' },
+  expiring:   { title: 'Expiring Contracts', subtitle: 'Contracts requiring renewal action within 90 days', width: 'full' },
+  highrisk:   { title: 'High-Risk Users', subtitle: 'Inactive and over-licensed user accounts', width: 'full' },
+  indirect:   { title: 'Indirect Usage Risk', subtitle: '3rd-party integrations with SAP access', width: 'full' },
 };
 
 const heatTabs = ['Consumption Heat Map', 'Cost Allocation', 'Savings Opportunities'];
@@ -77,14 +77,14 @@ export function Dashboard() {
   const panelCfg = drill ? PANEL_CONFIG[drill] : null;
   const contextPanelCfg = contextDrill
     ? contextDrill.type === 'heat-consumption'
-      ? { title: `Consumption Detail — ${contextDrill.cell.x} / ${contextDrill.cell.y}`, subtitle: 'Department + license type utilisation', width: 'lg' as const }
+      ? { title: `Consumption Detail — ${contextDrill.cell.x} / ${contextDrill.cell.y}`, subtitle: 'Department + license type utilisation', width: 'full' as const }
       : contextDrill.type === 'heat-cost'
-        ? { title: `Cost Detail — ${contextDrill.cell.y} (${contextDrill.cell.x})`, subtitle: 'Department monthly allocation breakdown', width: 'lg' as const }
+        ? { title: `Cost Detail — ${contextDrill.cell.y} (${contextDrill.cell.x})`, subtitle: 'Department monthly allocation breakdown', width: 'full' as const }
         : contextDrill.type === 'heat-savings'
-          ? { title: `Savings Detail — ${contextDrill.cell.x} / ${contextDrill.cell.y}`, subtitle: 'Opportunity value and related user risk', width: 'lg' as const }
+          ? { title: `Savings Detail — ${contextDrill.cell.x} / ${contextDrill.cell.y}`, subtitle: 'Opportunity value and related user risk', width: 'full' as const }
           : contextDrill.type === 'trend'
-            ? { title: `Usage Trend — ${contextDrill.point.month}`, subtitle: 'Month-wise license activity drill-down', width: 'lg' as const }
-            : { title: `Alert Detail — ${contextDrill.alert.title}`, subtitle: 'Severity, impact, and recommended action', width: 'md' as const }
+            ? { title: `Usage Trend — ${contextDrill.point.month}`, subtitle: 'Month-wise license activity drill-down', width: 'full' as const }
+            : { title: `Alert Detail — ${contextDrill.alert.title}`, subtitle: 'Severity, impact, and recommended action', width: 'full' as const }
     : null;
 
   const activePanelCfg = panelCfg ?? contextPanelCfg;
