@@ -7,9 +7,10 @@ interface HeatMapProps {
   yLabel?: string;
   maxValue?: number;
   formatValue?: (v: number) => string;
+  onCellClick?: (cell: HeatMapCell) => void;
 }
 
-export function HeatMap({ data, maxValue, formatValue }: HeatMapProps) {
+export function HeatMap({ data, maxValue, formatValue, onCellClick }: HeatMapProps) {
   const xValues = [...new Set(data.map((d) => d.x))];
   const yValues = [...new Set(data.map((d) => d.y))];
   const max = maxValue ?? Math.max(...data.map((d) => d.value));
@@ -36,12 +37,16 @@ export function HeatMap({ data, maxValue, formatValue }: HeatMapProps) {
               {xValues.map((x) => {
                 const cell = getValue(x, y);
                 const val = cell?.value ?? 0;
+                const isClickable = Boolean(cell && onCellClick);
                 return (
                   <td key={x} className="py-0.5 px-1">
                     <div
-                      className="rounded h-8 flex items-center justify-center font-semibold text-white/90 min-w-[48px] transition-transform hover:scale-105 cursor-default"
+                      className={`rounded h-8 flex items-center justify-center font-semibold text-white/90 min-w-[48px] transition-transform hover:scale-105 ${isClickable ? 'cursor-pointer ring-0 hover:ring-1 hover:ring-white/30' : 'cursor-default'}`}
                       style={{ backgroundColor: heatColor(val, max) }}
                       title={`${y} / ${x}: ${formatValue ? formatValue(val) : val}`}
+                      onClick={() => {
+                        if (cell && onCellClick) onCellClick(cell);
+                      }}
                     >
                       {cell?.label ?? (formatValue ? formatValue(val) : val)}
                     </div>
