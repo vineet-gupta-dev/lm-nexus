@@ -32,12 +32,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const token = Buffer.from(`${SAP_USERNAME}:${SAP_PASSWORD}`).toString('base64');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     const sapRes = await fetch(url, {
       headers: {
         Authorization: `Basic ${token}`,
         Accept: 'application/json',
       },
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     if (!sapRes.ok) {
       const errText = await sapRes.text();
@@ -51,9 +56,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await sapRes.json();
     return res.status(200).json(data);
   } catch (err: any) {
+    const cause = err?.cause;
     return res.status(500).json({
       error: 'Proxy error',
       details: err?.message ?? String(err),
+      hint: 'If details include ENOTFOUND/ECONNREFUSED/ETIMEDOUT, the SAP host is not reachable from the runtime network.',
+      networkCause: {
+        code: cause?.code ?? null,
+        errno: cause?.errno ?? null,
+        syscall: cause?.syscall ?? null,
+        hostname: cause?.hostname ?? null,
+      },
     });
   }
 }
