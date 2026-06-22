@@ -10,6 +10,7 @@ import { RoleReplacement } from "./pages/RoleReplacement/RoleReplacement";
 import { Compliance } from "./pages/Compliance/Compliance";
 import { Simulation } from "./pages/Simulation/Simulation";
 import { Chargeback } from "./pages/Chargeback/Chargeback";import { FueLicensing } from './pages/FueLicensing/FueLicensing';
+import { SapTest } from './pages/SapTest/SapTest';
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           <Route path="simulation" element={<Simulation />} />
           <Route path="chargeback" element={<Chargeback />} />
           <Route path="fue" element={<FueLicensing />} />
+          <Route path="sap-test" element={<SapTest />} />
         </Route>
       </Routes>
     </BrowserRouter>

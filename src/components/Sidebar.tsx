@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Sliders, Users, FileText, TrendingDown,
   Repeat, ShieldCheck, FlaskConical, PieChart, GitBranch,
-  ChevronRight, Scale
+  ChevronRight, Scale, Plug
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -18,6 +18,7 @@ const navItems = [
   { label: 'Simulation', icon: FlaskConical, path: '/simulation' },
   { label: 'Chargeback', icon: PieChart, path: '/chargeback' },
   { label: 'FUE Licensing', icon: Scale, path: '/fue' },
+  { label: 'SAP Live Test', icon: Plug, path: '/sap-test' },
 ];
 
 export function Sidebar() {
