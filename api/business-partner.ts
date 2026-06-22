@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const SAP_BASE_URL = process.env.SAP_BASE_URL!;
-const SAP_USERNAME = process.env.SAP_USERNAME!;
-const SAP_PASSWORD = process.env.SAP_PASSWORD!;
+const SAP_BASE_URL = (process.env.SAP_BASE_URL || process.env.SAP_URL || '').replace(/\/$/, '');
+const SAP_USERNAME = process.env.SAP_USERNAME || '';
+const SAP_PASSWORD = process.env.SAP_PASSWORD || '';
 const SAP_CLIENT   = process.env.SAP_CLIENT ?? '800';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -11,6 +11,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
+  }
+
+  if (!SAP_BASE_URL || !SAP_USERNAME || !SAP_PASSWORD) {
+    return res.status(500).json({
+      error: 'Missing SAP environment variables',
+      details: 'Set SAP_BASE_URL (or SAP_URL), SAP_USERNAME, SAP_PASSWORD, and SAP_CLIENT in Vercel Project Settings > Environment Variables.',
+    });
   }
 
   const entity    = (req.query.entity as string) || 'A_BusinessPartner';
