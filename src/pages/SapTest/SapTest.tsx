@@ -50,7 +50,10 @@ export function SapTest() {
       setElapsed(Date.now() - t0);
 
       if (!res.ok) {
-        setErrorMsg(json?.details ?? json?.error ?? `HTTP ${res.status}`);
+        const causeCode = json?.networkCause?.code ? ` (${json.networkCause.code})` : '';
+        const details = json?.details ?? json?.error ?? `HTTP ${res.status}`;
+        const hint = json?.hint ? ` Hint: ${json.hint}` : '';
+        setErrorMsg(`${details}${causeCode}${hint}`);
         setStatus('error');
         return;
       }

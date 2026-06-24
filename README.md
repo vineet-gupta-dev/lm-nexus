@@ -71,3 +71,27 @@ export default defineConfig([
   },
 ])
 ```
+
+## Automatic Vercel Deployment (GitHub Actions)
+
+This repository includes a workflow at `.github/workflows/vercel-auto-deploy.yml`.
+
+Behavior:
+
+- Every push to `main` triggers a **production** deployment.
+- Every push to other branches triggers a **preview** deployment.
+
+Required GitHub repository secrets:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+How to get these values:
+
+1. `VERCEL_TOKEN`: Vercel Dashboard -> Settings -> Tokens.
+2. `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`:
+  - Run `vercel link` once locally.
+  - Read values from `.vercel/project.json` (do not commit this file).
+
+After adding secrets, push any commit and the deployment runs automatically via the Actions tab.
